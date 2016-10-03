@@ -1,9 +1,51 @@
 # Seed, Expand, Constrain: Three Principles for Weakly-Supervised Image Segmentation
 Created by Alexander Kolesnikov and Christoph Lampert at IST Austria.
 
-### Disclaimer: the code was tested on **Ubuntu 14.04 LTS**.
+## Introduction
 
-## Dependencies
+![Overview of SEC](https://cloud.githubusercontent.com/assets/460828/19045346/9b3bd058-8998-11e6-93f2-4c667fb7a1e8.png)
+
+We propose a new composite loss function for training convolutional neural
+networks for the task of weakly-supervised image segmentation. Our approach
+relies on the following three insights:
+
+1. Image classification neural networks can
+be used to generate reliable object localization cues (seeds), but fail to
+predict the exact spatial extent of the objects. We incorporate this aspect
+by using a seeding loss that encourages a segmentation network to match
+localization cues but that is agnostic about the rest of the image.
+
+2. To train a segmentation network from per-image annotation, a global pooling
+layer can be used that aggregates segmentation masks into image-level label
+scores. The choice of this layer has large impact on the quality of segmenta-
+tions. For example, max-pooling tends to underestimate the size of objects
+while average-pooling tends to overestimate it. We propose a global
+weighted rank pooling that is leveraged by expansion loss to expand
+the object seeds to regions of a reasonable size. It generalizes max-pooling
+and average pooling and outperforms them in our empirical study.
+
+3. Networks trained from image-level labels rarely capture the precise bound-
+aries of objects in an image. Postprocessing by fully-connected conditional
+random fields (CRF) at test time is often insucient to overcome this ect,
+because once the networks have been trained they tend to be confident even
+about misclassified regions. We propose a new constrain-to-boundary
+loss that alleviates the problem of imprecise boundaries already at train-
+ing time. It strives to constrain predicted segmentation masks to respect
+low-level image information, in particular object boundaries.
+
+## Citing this repository
+
+If you find this code useful in your research, please consider citing us:
+
+        @inproceedings{kolesnikov2016seed,
+          title={Seed, Expand and Constrain: Three Principles for Weakly-Supervised Image Segmentation},
+          author={Kolesnikov, Alexander and Lampert, Christoph H.},
+          booktitle={European Conference on Computer Vision ({ECCV})},
+          year={2016},
+          organization={Springer}
+        }
+
+## Installing dependencies
 
 * Python packages:
 ```bash
@@ -17,14 +59,14 @@ Created by Alexander Kolesnikov and Christoph Lampert at IST Austria.
       $ pip install CRF/
 ```
 
-## Adding new loss layers to caffe
+## Adding new loss layers required by SEC 
 
 In order to add new loss layers to caffe install the `pylayers` package, provided in this repository:
 ```bash
       $ pip install pylayers/
 ```
 
-## How to train SEC model
+## Training the SEC model
 
 * Go into the training directory: 
 
@@ -53,7 +95,7 @@ In order to add new loss layers to caffe install the `pylayers` package, provide
 ```
    The trained model will be created in `training/models`
 
-## How to deploy the SEC model
+## Deploying the SEC model
 
 * Go into the deploy directory: 
 
@@ -72,3 +114,7 @@ In order to add new loss layers to caffe install the `pylayers` package, provide
 ```bash
       $ python demo.py --model SEC.caffemodel --image <PATH TO IMAGE> --smooth
 ```
+
+* Some segmentation examples:
+
+![example](https://cloud.githubusercontent.com/assets/460828/19045485/57c72416-8999-11e6-8089-27b00c5c4712.png)
