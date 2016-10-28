@@ -3,7 +3,7 @@ Created by Alexander Kolesnikov and Christoph Lampert at IST Austria.
 
 ## Introduction
 
-![Overview of SEC](https://cloud.githubusercontent.com/assets/460828/19045346/9b3bd058-8998-11e6-93f2-4c667fb7a1e8.png)
+![Overview of SEC](https://cloud.githubusercontent.com/assets/460828/19805112/cb7e053c-9d12-11e6-912f-24e2dbdc6699.png)
 
 We propose a new composite loss function for training convolutional neural
 networks for the task of weakly-supervised image segmentation. Our approach
