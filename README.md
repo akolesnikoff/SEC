@@ -77,7 +77,7 @@ In order to add new loss layers to caffe install the `pylayers` package, provide
 * Download the initial model (~80 MB) pretrained on Imagenet:
 
 ```bash
-      $ wget http://ccvl.stat.ucla.edu/ccvl/init_models/vgg16_20M.caffemodel
+      $ wget http://www.cs.jhu.edu/~alanlab/ccvl/init_models/vgg16_20M.caffemodel
 ```
 
 * Decompress localization cues:
