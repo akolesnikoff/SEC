@@ -77,8 +77,7 @@ class CRFLayer(caffe.Layer):
         top[0].data[...] = np.log(self.result)
 
     def backward(self, top, prop_down, bottom):
-        grad = (1 - self.result) * top[0].diff[...]
-        bottom[0].diff[...] = grad
+        bottom[0].diff[...] = 0.0
 
 
 class SeedLossLayer(caffe.Layer):
